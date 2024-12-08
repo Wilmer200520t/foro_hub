@@ -2,6 +2,7 @@ package com.forohub.user.models;
 
 import com.forohub.general.models.Gender;
 import com.forohub.general.models.Status;
+import com.forohub.user.dto.UserDtoUpdate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -27,6 +28,7 @@ public class User implements UserDetails {
     private long id;
 
     @NotNull
+    @Column(unique = true)
     private String username;
     private String name;
     private String surname;
@@ -87,5 +89,18 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
+    }
+
+    public void update(UserDtoUpdate data) {
+        if (data.email() != null) this.email = data.email();
+        if (data.gender() != null) this.gender = data.gender();
+        if (data.name() != null) this.name = data.name();
+        if (data.surname() != null) this.surname = data.surname();
+        if (data.password() != null) this.password = data.password();
+        if (data.status() != null) this.status = data.status();
+    }
+
+    public void block() {
+        this.status = Status.Blocked;
     }
 }

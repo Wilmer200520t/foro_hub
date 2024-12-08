@@ -2,6 +2,7 @@ package com.forohub.user.models;
 
 import com.forohub.general.models.Gender;
 import com.forohub.general.models.Status;
+import com.forohub.user.dto.UserDtoCreate;
 import com.forohub.user.dto.UserDtoUpdate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -51,6 +52,15 @@ public class User implements UserDetails {
     @NotNull
     private LocalDateTime created;
 
+    public User(UserDtoCreate data) {
+        this.username = data.username();
+        this.name = data.name();
+        this.surname = data.surname();
+        this.gender = data.gender();
+        this.email = data.email();
+        this.password = encryptPassword(data.password());
+    }
+
     @PrePersist
     public void prePersist() {
         if (this.gender == null) {
@@ -96,11 +106,15 @@ public class User implements UserDetails {
         if (data.gender() != null) this.gender = data.gender();
         if (data.name() != null) this.name = data.name();
         if (data.surname() != null) this.surname = data.surname();
-        if (data.password() != null) this.password = data.password();
+        if (data.password() != null) this.password = encryptPassword(data.password());
         if (data.status() != null) this.status = data.status();
     }
 
     public void block() {
         this.status = Status.Blocked;
+    }
+
+    public String encryptPassword(String password) {
+        return password;
     }
 }

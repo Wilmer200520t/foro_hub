@@ -1,14 +1,17 @@
 package com.forohub.user.service;
 
+import com.forohub.user.dto.UserDtoCreate;
 import com.forohub.user.dto.UserDtoMainData;
 import com.forohub.user.dto.UserDtoUpdate;
 import com.forohub.user.models.User;
 import com.forohub.user.repository.UserRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class UserService {
 
     @Autowired
@@ -45,6 +48,12 @@ public class UserService {
         }
         User user = userOptional.get();
         user.block();
+        return ResponseEntity.ok(new UserDtoMainData(user));
+    }
+
+    public ResponseEntity<UserDtoMainData> createUser(UserDtoCreate data) {
+        User user = new User(data);
+        userRespository.save(user);
         return ResponseEntity.ok(new UserDtoMainData(user));
     }
 }

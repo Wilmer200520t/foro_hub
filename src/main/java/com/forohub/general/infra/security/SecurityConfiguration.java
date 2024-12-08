@@ -28,6 +28,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.DELETE).permitAll()
                                 .requestMatchers(HttpMethod.PUT).permitAll()
                                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/register").permitAll()
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                                 .anyRequest()
                                 .authenticated()

@@ -20,7 +20,7 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<UserDtoMainData> addUser(@PathVariable long id, @RequestBody UserDtoUpdate data) {
         return userService.updateUser(id, data);

@@ -7,6 +7,8 @@ import com.forohub.user.models.User;
 import com.forohub.user.repository.UserRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,6 +18,12 @@ public class UserService {
 
     @Autowired
     private UserRespository userRespository;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService() {
+        this.passwordEncoder = new BCryptPasswordEncoder();
+    }
 
     public ResponseEntity<UserDtoMainData> getUserById(long id) {
         Optional<User> userOptional = userRespository.findById(id);
@@ -27,6 +35,7 @@ public class UserService {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             user.update(data);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             return ResponseEntity.ok(new UserDtoMainData(user));
         }
         return ResponseEntity.notFound().build();
@@ -53,7 +62,12 @@ public class UserService {
 
     public ResponseEntity<UserDtoMainData> createUser(UserDtoCreate data) {
         User user = new User(data);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRespository.save(user);
         return ResponseEntity.ok(new UserDtoMainData(user));
+    }
+
+    public String encryptPassword(String password) {
+        return passwordEncoder.encode(password);
     }
 }

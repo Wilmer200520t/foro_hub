@@ -6,6 +6,7 @@ import com.forohub.topic.dto.TopicDtoUpdate;
 import com.forohub.topic.models.Topic;
 import com.forohub.topic.repository.TopicRepository;
 import com.forohub.topic.service.TopicService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class TopicController {
 
     @PostMapping
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<TopicDtoShowAll> createTopic(@RequestBody @Valid TopicDtoRegister topicDto) {
         Topic topic = topicService.registerTopic(topicDto);
         return ResponseEntity.ok(new TopicDtoShowAll(topic));

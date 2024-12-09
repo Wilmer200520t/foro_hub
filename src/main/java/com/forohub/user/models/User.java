@@ -29,7 +29,7 @@ public class User implements UserDetails {
     private long id;
 
     @NotNull
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
     private String name;
     private String surname;

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class SpringDocsConfiguration {
 
     @Bean
-    public OpenAPI openAPI() {
+    public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .components(
                         new Components()
@@ -22,4 +22,5 @@ public class SpringDocsConfiguration {
                             )
                 );
     }
+
 }

@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/topic")
+@SecurityRequirement(name = "bearer-key")
 public class TopicController {
     @Autowired
     private TopicRepository topicRepository;

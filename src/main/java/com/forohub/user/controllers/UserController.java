@@ -17,27 +17,27 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDtoMainData> getUserById(@PathVariable long id) {
-        return userService.getUserById(id);
+    @GetMapping()
+    public ResponseEntity<UserDtoMainData> getUserById() {
+        return userService.getUserById(userService.getUserIdAuthenticated());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update")
     @Transactional
-    public ResponseEntity<UserDtoMainData> addUser(@PathVariable long id, @RequestBody UserDtoUpdate data) {
-        return userService.updateUser(id, data);
+    public ResponseEntity<UserDtoMainData> addUser(@RequestBody UserDtoUpdate data) {
+        return userService.updateUser(userService.getUserIdAuthenticated(), data);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete")
     @Transactional
-    public ResponseEntity<?> deleteUser(@PathVariable long id) {
-        return userService.deleteUser(id);
+    public ResponseEntity<?> deleteUser() {
+        return userService.deleteUser(userService.getUserIdAuthenticated());
     }
 
-    @DeleteMapping("/block/{id}")
+    @DeleteMapping("/block")
     @Transactional
-    public ResponseEntity<UserDtoMainData> blockUser(@PathVariable long id) {
-        return userService.blockUser(id);
+    public ResponseEntity<UserDtoMainData> blockUser() {
+        return userService.blockUser(userService.getUserIdAuthenticated());
     }
 
 }

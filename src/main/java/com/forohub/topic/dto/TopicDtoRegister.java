@@ -13,9 +13,6 @@ public record TopicDtoRegister(
         String message,
 
         @NotNull
-        Long user_id,
-
-        @NotNull
         Course course
 ) {
 }
